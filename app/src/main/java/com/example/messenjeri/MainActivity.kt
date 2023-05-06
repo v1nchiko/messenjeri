@@ -1,58 +1,46 @@
-package com.example.messejeri
+package com.example.messenjeri
 
-import android.Manifest
-import android.content.ContentResolver
-import android.content.ContentValues.TAG
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.database.Cursor
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import com.example.messejeri.databinding.ActivityMain2Binding
-import com.example.messejeri.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.messenjeri.ui.theme.MessenjeriTheme
 
-
-class MainActivity : AppCompatActivity() {
-    lateinit var bindingClass : ActivityMainBinding
-    private lateinit var pLauncher: ActivityResultLauncher<Array<String>>
-
-    override fun onCreate(s: Bundle?) {
-        super.onCreate(s)
-        bindingClass = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(bindingClass.root)
-        PrList()
-        CheckContacts()
-    }
-    private fun CheckContacts(){
-        when{
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
-                    == PackageManager.PERMISSION_GRANTED -> {
-            }
-            else ->{
-                pLauncher.launch(arrayOf(Manifest.permission.READ_CONTACTS))
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MessenjeriTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    Greeting("Android")
+                }
             }
         }
     }
-    private fun PrList(){
-        pLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestMultiplePermissions()) {
-            if (it[Manifest.permission.READ_CONTACTS] == true) {
-                Toast.makeText(this, "Разрешение получено", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this, "Разрешене отклонено!", Toast.LENGTH_LONG).show()
-                perehod()
-            }
-        }
-    }
+}
 
-    fun perehod(){
-        val intent = Intent(this, MainActivity2::class.java)
-        startActivity(intent)
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    MessenjeriTheme {
+        Greeting("Android")
     }
 }
