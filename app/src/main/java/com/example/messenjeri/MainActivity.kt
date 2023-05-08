@@ -63,9 +63,4 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI) // создаем намерение на выбор контакта
         startActivityForResult(intent, 1234) // запускаем активность на выбор контакта
     }
-
-    fun perehod(){
-        val intent = Intent(this, MainActivity2::class.java)
-        startActivity(intent)
-    }
 }
